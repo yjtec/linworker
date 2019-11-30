@@ -1,7 +1,7 @@
 {
-    "name": "yjtec/linque",
-    "description": "The Linque queue.",
-    "keywords": ["queue", "Linque"],
+    "name": "yjtec/linworker",
+    "description": "PHP命令行守护进程，多进程",
+    "keywords": ["fork", "Linworker"],
     "type": "library",
     "license": "MIT",
     "authors": [
@@ -12,12 +12,11 @@
     ],
     "require": {
         "php": ">5.6",
-        "ext-pcntl": "*",
-        "ext-redis": ">=2.2"
+        "ext-pcntl": "*"
     },
     "autoload": {
         "psr-4": {
-            "Yjtec\\Linque\\": "src/"
+            "Yjtec\\Linworker\\": "src/"
         }
     }
 }
