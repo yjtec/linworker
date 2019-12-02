@@ -39,7 +39,7 @@ class Master {
     public function startWork() {
         if ($this->system == 'linux') {
             $this->masterPid = posix_getpid();
-//            $this->displayUI(); //显示方框
+            $this->displayUI(); //显示方框
             while (1) {
                 foreach ($this->slave as &$slave) {
                     if (!$slave['pid']) {
