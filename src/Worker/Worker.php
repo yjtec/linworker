@@ -70,7 +70,7 @@ class Worker {
             $this->procLine->EchoAndLog('用户APP找不到run方法:' . $this->app . PHP_EOL);
             return false;
         }
-        $this->appInstance = new $this->class();
+        $this->appInstance = new $this->app();
         return $this->appInstance; //实例化job
     }
 
