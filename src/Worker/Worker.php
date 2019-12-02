@@ -71,6 +71,7 @@ class Worker {
             return false;
         }
         $this->appInstance = new $this->app();
+        $this->procLine->EchoAndLog('用户APP实例化成功：' . $this->app . PHP_EOL);
         return $this->appInstance; //实例化job
     }
 
