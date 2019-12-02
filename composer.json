@@ -11,8 +11,7 @@
         }
     ],
     "require": {
-        "php": ">5.6",
-        "ext-pcntl": "*"
+        "php": ">5.6"
     },
     "autoload": {
         "psr-4": {
