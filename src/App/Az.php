@@ -1,18 +1,18 @@
 <?php
 
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
 namespace Yjtec\Linworker\App;
+
+use Yjtec\Linque\Lib\AppInterface;
 
 /**
  * Description of Az
  *
  * @author Administrator
  */
-class Az {
-    //put your code here
+class Az implements AppInterface {
+
+    public function run() {
+        echo 'Az' . PHP_EOL;
+    }
+
 }
