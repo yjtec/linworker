@@ -40,11 +40,14 @@ class Master {
         if ($this->system == 'linux') {
             $this->masterPid = posix_getpid();
             $this->displayUI(); //显示方框
+            $procTitle = 'linworker ' . implode(' ', $_SERVER['argv']);
+            cli_set_process_title($procTitle . '(master)');
             while (1) {
                 foreach ($this->slave as &$slave) {
                     if (!$slave['pid']) {
                         $pid = pcntl_fork();
                         if ($pid == 0) {
+                            cli_set_process_title($procTitle . '(slave)');
                             return $this->slaverMonitor($slave['app']); //子进程
                         } elseif ($pid > 0) {
                             $slave['pid'] = $pid;
@@ -90,8 +93,8 @@ class Master {
     public function slaverMonitor($app) {
         usleep(10000); //稍微等几毫秒
         $SlaveWorker = new Worker($app, $this->interval);
-		$SlaveWorker->masterPid=$this->masterPid;
-		return $SlaveWorker->startWork();
+        $SlaveWorker->masterPid = $this->masterPid;
+        return $SlaveWorker->startWork();
     }
 
     /**

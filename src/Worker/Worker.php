@@ -14,7 +14,7 @@ class Worker {
     private $app;
     private $procLine = null; //日志记录
     private $system;
-	public $masterPid;
+    public $masterPid;
 
     public function __construct($app, $interval = 5) {
         $this->app = $app;
@@ -24,13 +24,16 @@ class Worker {
     }
 
     public function startWork() {
-        $this->procLine->EchoAndLog('子进程开始循环PID=' . $this->getMyPid() . PHP_EOL);
+        $this->procLine->EchoAndLog('任务主进程开始循环PID=' . $this->getMyPid() . PHP_EOL);
+        $title = cli_get_process_title();
         while (1) {
-			if($this->isParentDead()){
-				return true;
-			}
+            if ($this->isParentDead()) {
+                return true;
+            }
             try {
+                cli_set_process_title($title . ' doing');
                 $this->appStart(); //执行
+                cli_set_process_title($title);
             } catch (Exception $ex) {
                 $this->procLine->EchoAndLog('执行发生异常PID=' . $this->getMyPid() . ':' . json_encode($ex) . PHP_EOL);
             }
@@ -82,26 +85,17 @@ class Worker {
     public function getMyPid() {
         return $this->system == 'linux' ? posix_getpid() : getmypid();
     }
-	
-	public function isParentDead(){
-		if($this->system == 'linux'&&is_callable("exec")&&$this->masterPid){
-			exec("ps p ".$this->masterPid."|awk '{if(NR>1)print}'",$str,$re);
-			if($re==0){
-				if(!$str){
-					$this->procLine->EchoAndLog('未检测到父进程，子进程将退出:' . $this->getMyPid() . PHP_EOL);
-					return true;
-				}
-				$arg=explode(" ",trim(preg_replace("/\s(?=\s)/","\\1", $str[0])));
-				unset($arg[0],$arg[1],$arg[2],$arg[3],$arg[4]);
-				$arg=array_values($arg);
-				if($arg==$_SERVER['argv']){
-					return false;
-				}
-				$this->procLine->EchoAndLog('检测到一个奇怪的父进程，子进程将退出:' . $this->getMyPid()."，进程参数：".json_encode($str) . PHP_EOL);
-				return true;
-			}
-		}
-		return false;
-	}
+
+    public function isParentDead() {
+        if ($this->system == 'linux' && is_callable("exec") && $this->masterPid) {
+            $cmd = "ps -ef| grep " . $this->getMyPid() . "|grep -v grep|awk '{print$3}'";
+            exec($cmd, $str, $re);
+            if ($re != 0 || !$str || !isset($str[0]) || $this->masterPid != intval($str[0])) {
+                $this->procLine->EchoAndLog('未检测到父进程，父进程ID：' . $this->masterPid . '，子进程将退出：' . $this->getMyPid() . "，命令：" . $cmd . "，进程参数：" . json_encode($str) . PHP_EOL);
+                return true;
+            }
+        }
+        return false;
+    }
 
 }
