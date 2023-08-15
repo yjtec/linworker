@@ -10,7 +10,8 @@ namespace Yjtec\Linque\Lib;
  * @link https://github.com/yjtec
  * @version 1.0.0
  */
-interface AppInterface {
+interface AppInterface
+{
 
     /**
      * job执行方法

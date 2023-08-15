@@ -6,7 +6,8 @@ use Exception;
 use Yjtec\Linworker\Config\Conf;
 use Yjtec\Linworker\Lib\ProcLine;
 
-class Worker {
+class Worker
+{
 
     private $interval; //循环时间间隔
     private $appInstance;
@@ -16,15 +17,17 @@ class Worker {
     public $masterPid;
     private $logPath;
 
-    public function __construct($app, $interval = 5,$logPath=null) {
-        $this->logPath=$logPath?$logPath:dirname(__FILE__).'/../linworker.log';
+    public function __construct($app, $interval = 5, $logPath = null)
+    {
+        $this->logPath = $logPath ? $logPath : dirname(__FILE__) . '/../linworker.log';
         $this->app = $app;
         $this->interval = $interval;
         $this->procLine = new ProcLine($this->logPath);
         $this->system = Conf::getSystemPlatform();
     }
 
-    public function startWork() {
+    public function startWork()
+    {
         $this->procLine->EchoAndLog('任务主进程开始循环PID=' . $this->getMyPid() . PHP_EOL);
         $title = cli_get_process_title();
         while (1) {
@@ -42,7 +45,8 @@ class Worker {
         }
     }
 
-    public function appStart() {
+    public function appStart()
+    {
         $instance = $this->getAppInstance();
         if (!$instance) {
             return false;
@@ -66,7 +70,8 @@ class Worker {
      * @throws Exception
      * @throws Exception
      */
-    public function getAppInstance() {
+    public function getAppInstance()
+    {
         if ($this->appInstance) {
             return $this->appInstance;
         }
@@ -83,11 +88,13 @@ class Worker {
         return $this->appInstance; //实例化job
     }
 
-    public function getMyPid() {
+    public function getMyPid()
+    {
         return $this->system == 'linux' ? posix_getpid() : getmypid();
     }
 
-    public function isParentDead() {
+    public function isParentDead()
+    {
         if ($this->system == 'linux' && is_callable("exec") && $this->masterPid) {
             $cmd = "ps -ef| grep " . $this->getMyPid() . "|grep -v grep|awk '{print$3}'";
             exec($cmd, $str, $re);
@@ -98,5 +105,4 @@ class Worker {
         }
         return false;
     }
-
 }

@@ -13,24 +13,27 @@ namespace Yjtec\Linworker\Config;
  *
  * @author Administrator
  */
-class Conf {
+class Conf
+{
 
     public static $Config;
 
-    public static function setConfig($config) {
+    public static function setConfig($config)
+    {
         self::$Config = array_merge(self::$Config, $config);
     }
 
-    public static function getConfig() {
+    public static function getConfig()
+    {
         return self::$Config;
     }
 
-    public static function getSystemPlatform() {
+    public static function getSystemPlatform()
+    {
         if (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') {
             return 'win';
         } else {
             return 'linux';
         }
     }
-
 }

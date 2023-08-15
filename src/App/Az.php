@@ -9,10 +9,11 @@ use Yjtec\Linque\Lib\AppInterface;
  *
  * @author Administrator
  */
-class Az implements AppInterface {
+class Az implements AppInterface
+{
 
-    public function run() {
+    public function run()
+    {
         echo 'Az' . PHP_EOL;
     }
-
 }
