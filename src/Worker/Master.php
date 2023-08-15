@@ -4,7 +4,6 @@ namespace Yjtec\Linworker\Worker;
 
 use Yjtec\Linworker\Config\Conf;
 use Yjtec\Linworker\Lib\ProcLine;
-use const LOGPATH;
 
 /**
  * 主进程,用以保护实际执行job的子进程
@@ -16,18 +15,21 @@ use const LOGPATH;
 class Master {
 
     private $interval; //主进程和子进程的循环间隔
+    private $daemonize;
+    private $logPath="";
     private $masterPid = 0; //主进程pid
     private $procLine; //日志处理类
     private $system; //系统版本
     public $count; //子进程数量
     public $slave;
 
-    public function __construct($classes = 1, $interval = 5, $daemonize = 0) {
+    public function __construct($classes = 1, $interval = 5, $daemonize = 0,$logPath="") {
+        $this->logPath=$logPath?$logPath:dirname(__FILE__).'/../linworker.log';
         $this->slave = strpos($classes, ',') === false ? array($classes) : explode(',', $classes);
         foreach ($this->slave as &$class) {
             $class = array('app' => $class, 'pid' => 0);
         }
-        $this->procLine = new ProcLine(LOGPATH);
+        $this->procLine = new ProcLine($this->logPath);
         $this->interval = $interval ? $interval : 5;
         $this->daemonize = $daemonize;
         $this->system = Conf::getSystemPlatform();
@@ -112,7 +114,7 @@ class Master {
         }
         $this->procLine->initDisplay("Worker:" . implode(',', $slaveStr));
         $this->procLine->initDisplay("Interval:" . $this->interval . 's');
-        $this->procLine->initDisplay("LogPath:" . LOGPATH);
+        $this->procLine->initDisplay("LogPath:" . $this->logPath);
         $this->procLine->initDisplay("─配置────────────────────────────────────────────────────────");
         $this->procLine->displayUI();
     }

@@ -7,7 +7,7 @@ namespace Yjtec\Linque\Lib;
  *
  * @author Linko
  * @email 18716463@qq.com
- * @link https://github.com/kk1987n/LineQue.git
+ * @link https://github.com/yjtec
  * @version 1.0.0
  */
 interface AppInterface {

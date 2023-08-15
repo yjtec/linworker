@@ -8,7 +8,7 @@ namespace Yjtec\Linworker\Lib;
  * 
  * @author Linko
  * @email 18716463@qq.com
- * @link https://github.com/kk1987n/LineQue.git
+ * @link https://github.com/yjtec
  * @version 1.0.0
  */
 class ProcLine {
@@ -26,11 +26,11 @@ class ProcLine {
      * @return void
      */
     public function displayUI() {
-        $this->EchoAndLog("┌───────────────────────────── LineQue ─────────────────────────────┐" . PHP_EOL);
-        $this->EchoAndLog("├───────────────────────────────────────────── LineQueVersion:1.0.0 ┤" . PHP_EOL);
+        $this->EchoAndLog("┌───────────────────────────── LineWorker ─────────────────────────────┐" . PHP_EOL);
+        $this->EchoAndLog("├──────────────────────────────────────────── LineWorker Version:1.0.0 ┤" . PHP_EOL);
         $this->EchoAndLog("│感谢您选择LineWorker                                                  │" . PHP_EOL);
         $this->EchoAndLog("│LineWorker是一款基于PHP的简单守护进程程序                                 │" . PHP_EOL);
-        $this->EchoAndLog("│需要更多帮助,请访问https://ax720.com                 │" . PHP_EOL);
+        $this->EchoAndLog("│需要更多帮助,请访问https://blog.biuio.com                 │" . PHP_EOL);
         $this->showInitDisplay();
         $this->EchoAndLog("├──────────────────────────────────────────────── PHPVersion:" . PHP_VERSION . " ┤" . PHP_EOL);
         $this->EchoAndLog("└───────────────────────────────────────────────────────────────────┘" . PHP_EOL);

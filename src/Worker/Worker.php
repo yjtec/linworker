@@ -5,7 +5,6 @@ namespace Yjtec\Linworker\Worker;
 use Exception;
 use Yjtec\Linworker\Config\Conf;
 use Yjtec\Linworker\Lib\ProcLine;
-use const LOGPATH;
 
 class Worker {
 
@@ -15,11 +14,13 @@ class Worker {
     private $procLine = null; //日志记录
     private $system;
     public $masterPid;
+    private $logPath;
 
-    public function __construct($app, $interval = 5) {
+    public function __construct($app, $interval = 5,$logPath=null) {
+        $this->logPath=$logPath?$logPath:dirname(__FILE__).'/../linworker.log';
         $this->app = $app;
         $this->interval = $interval;
-        $this->procLine = new ProcLine(LOGPATH);
+        $this->procLine = new ProcLine($this->logPath);
         $this->system = Conf::getSystemPlatform();
     }
 
